@@ -24,6 +24,7 @@ const AttendanceManager = () => {
     const [showTargetForm, setShowTargetForm] = useState(false);
     const [history, setHistory] = useState([]);
     const [showHistory, setShowHistory] = useState(false);
+    const [showUserGuide, setShowUserGuide] = useState(false);
     const [theme, setTheme] = useState(() => {
       const savedTheme = localStorage.getItem('attendanceTheme');
       return savedTheme || 'light';
@@ -94,6 +95,8 @@ const AttendanceManager = () => {
         date: new Date().toLocaleDateString(),
         type: calculationType,
         details,
+        totalCount: totalLectures,
+        attendedCount: attendedLectures,
         result
       };
       setHistory(prevHistory => [newEntry, ...prevHistory].slice(0, 20));
@@ -156,6 +159,9 @@ const AttendanceManager = () => {
       
       setResult(message);
       setResultColor(attendance >= 75 ? 'text-green-500' : 'text-red-500');
+      
+      setTotalLectures(totalClasses.toString());
+      setAttendedLectures(totalAttended.toString());
       
       addToHistory('Subject-wise', 
         `Subjects: ${subjects.length}, Details: ${subjectDetails.join(', ')}`, 
@@ -226,10 +232,25 @@ const AttendanceManager = () => {
     };
   
     const handleSubjectCountChange = (count) => {
-      setSubjectCount(count);
-      setSubjects(Array.from({ length: parseInt(count) || 0 }, () => ({ conducted: '', attended: '' })));
+      if (parseInt(count) > 100) {
+        setResult('⚠️ Maximum 100 subjects allowed.');
+        setResultColor('text-red-500');
+        setSubjectCount('100');
+        setSubjects(Array.from({ length: 100 }, () => ({ conducted: '', attended: '' })));
+      } else {
+        setSubjectCount(count);
+        setSubjects(Array.from({ length: parseInt(count) || 0 }, () => ({ conducted: '', attended: '' })));
+        setResult('');
+      }
     };
-  
+    const toggleUserGuide = () => {
+      setShowUserGuide(!showUserGuide);
+      if (!showUserGuide) {
+        setShowHistory(false);
+        setShowCalculateButtons(false);
+        setShowTargetForm(false);
+      }
+    };
 
   return (
     <div className="am-container">
@@ -340,7 +361,7 @@ const AttendanceManager = () => {
           <form onSubmit={handleSubjectWise} className="am-form">
             <div className="am-form-group">
               <label htmlFor="subject-count" className="am-label">
-                Number of Subjects
+                Number of Subjects (Max 100)
               </label>
               <input
                 id="subject-count"
@@ -349,6 +370,7 @@ const AttendanceManager = () => {
                 placeholder="How many subjects?"
                 value={subjectCount}
                 onChange={(e) => handleSubjectCountChange(e.target.value)}
+                max="100"
                 required
               />
             </div>
@@ -509,7 +531,14 @@ const AttendanceManager = () => {
                     <span className="am-entry-date">{entry.date}</span>
                   </div>
                   <div className="am-entry-content">
-                    <p className="am-entry-details">{entry.details}</p>
+                    <p className="am-entry-details">
+                      {entry.details}
+                      {entry.totalCount && entry.attendedCount && (
+                        <span className="am-total-attended-count">
+                          <br />Total: {entry.totalCount}, Attended: {entry.attendedCount}
+                        </span>
+                      )}
+                    </p>
                     <p className="am-entry-result">
                       {entry.result.includes('%') ? (
                         parseFloat(entry.result) >= 75 ? (
@@ -541,6 +570,88 @@ const AttendanceManager = () => {
           )}
         </div>
       )}
+      
+      <div className="am-footer">
+  <p className="am-copyright" onClick={toggleUserGuide}>MADE BY AADITIYA</p>
+</div>
+{showUserGuide && (
+  <div className="am-user-guide">
+    <div className="am-guide-header">
+      <h2>Attendance Tracker User Guide</h2>
+      <button className="am-guide-close" onClick={toggleUserGuide}>×</button>
+    </div>
+    
+    <div className="am-guide-content">
+      <section className="am-guide-section">
+        <h3>Getting Started</h3>
+        <p>Welcome to Attendance Tracker! This app helps you calculate and manage your attendance records. It provides three main functions:</p>
+        <ul>
+          <li><strong>Aggregate Attendance:</strong> Calculate overall attendance based on total lectures</li>
+          <li><strong>Subject-wise Attendance:</strong> Track attendance across multiple subjects (up to 100)</li>
+          <li><strong>Target Attendance:</strong> Find out how many lectures you need to attend or can miss</li>
+        </ul>
+      </section>
+      
+      <section className="am-guide-section">
+        <h3>Calculate Attendance</h3>
+        <p><strong>Aggregate Method:</strong></p>
+        <ol>
+          <li>Click "Calculate Attendance" button</li>
+          <li>Select "Aggregate" option</li>
+          <li>Enter the total number of lectures conducted</li>
+          <li>Enter the number of lectures you've attended</li>
+          <li>Click "Calculate" to see your attendance percentage</li>
+        </ol>
+        
+        <p><strong>Subject-wise Method:</strong></p>
+        <ol>
+          <li>Click "Calculate Attendance" button</li>
+          <li>Select "Subject Wise" option</li>
+          <li>Enter number of subjects (maximum 100)</li>
+          <li>For each subject, enter conducted and attended lectures</li>
+          <li>Click "Calculate" to see your combined attendance percentage</li>
+        </ol>
+      </section>
+      
+      <section className="am-guide-section">
+        <h3>Attendance Target</h3>
+        <p>To find out how many more lectures you need to attend or can afford to miss:</p>
+        <ol>
+          <li>Click "Attendance Target" button</li>
+          <li>Enter your current total lectures and attended lectures</li>
+          <li>Enter your target attendance percentage (0-99%)</li>
+          <li>Click "Calculate Target"</li>
+          <li>The app will tell you if you need to attend more lectures or how many you can miss</li>
+        </ol>
+      </section>
+      
+      <section className="am-guide-section">
+        <h3>Tracking History</h3>
+        <p>All your calculations are automatically saved to history:</p>
+        <ul>
+          <li>Click the history icon (clock) in the top right to view past calculations</li>
+          <li>Each entry shows the calculation type, date, details, and result</li>
+          <li>History is color-coded: green for good attendance, yellow/red for attention needed</li>
+          <li>You can clear your history using the "Clear" button</li>
+        </ul>
+      </section>
+      
+      <section className="am-guide-section">
+        <h3>Tips & Features</h3>
+        <ul>
+          <li>Toggle between light and dark mode using the moon/sun icon</li>
+          <li>The app saves your history and theme preference between sessions</li>
+          <li>75% is the standard attendance threshold for passing (shown in green)</li>
+          <li>Maximum 100 subjects can be added for subject-wise calculation</li>
+        </ul>
+      </section>
+    </div>
+    
+    <div className="am-guide-footer">
+      <p>Created by Aaditiya © 2025</p>
+    </div>
+  </div>
+)}
     </div>
   );
 };
