@@ -70,8 +70,14 @@ const AttendanceManager = () => {
   
     const toggleHistory = () => {
       setShowHistory(!showHistory);
-      setShowCalculateButtons(false);
-      setShowTargetForm(false);
+      if (showHistory) {
+        // If we're closing history, no need to hide others
+      } else {
+        // If we're opening history, hide other UI elements
+        setShowCalculateButtons(false);
+        setShowTargetForm(false);
+        setResult(''); // Clear any displayed results
+      }
     };
   
     const clearHistory = () => {
@@ -243,6 +249,7 @@ const AttendanceManager = () => {
         setResult('');
       }
     };
+  
     const toggleUserGuide = () => {
       setShowUserGuide(!showUserGuide);
       if (!showUserGuide) {
@@ -275,228 +282,230 @@ const AttendanceManager = () => {
       </div>
 
       {!showHistory && (
-        <div className="am-mode-selector">
-          <button 
-            onClick={handleCalculateAttendance}
-            className={`am-mode-button ${showCalculateButtons ? 'am-active-mode' : ''}`}
-          >
-            <BarChart className="am-icon" />
-            <span>Calculate Attendance</span>
-          </button>
-          <button 
-            onClick={handleAttendanceTarget}
-            className={`am-mode-button ${showTargetForm ? 'am-active-mode' : ''}`}
-          >
-            <Target className="am-icon" />
-            <span>Attendance Target</span>
-          </button>
-        </div>
-      )}
-
-      {showCalculateButtons && (
-        <div className="am-calculation-type">
-          <button 
-            onClick={() => { setMode('aggregate'); resetFields(); }}
-            className={`am-type-button ${mode === 'aggregate' ? 'am-active-type' : ''}`}
-          >
-            <Calculator className="am-icon" />
-            <span>Aggregate</span>
-          </button>
-          <button 
-            onClick={() => { setMode('subjectWise'); resetFields(); }}
-            className={`am-type-button ${mode === 'subjectWise' ? 'am-active-type' : ''}`}
-          >
-            <Book className="am-icon" />
-            <span>Subject Wise</span>
-          </button>
-        </div>
-      )}
-
-      {mode === 'aggregate' && (
-        <div className="am-form-container">
-          <h3 className="am-form-title">Aggregate Attendance</h3>
-          <form onSubmit={handleCalculateAggregate} className="am-form">
-            <div className="am-form-group">
-              <label htmlFor="total-lectures" className="am-label">
-                Total Lectures
-              </label>
-              <input
-                id="total-lectures"
-                type="number"
-                className="am-input"
-                placeholder="Total lectures conducted"
-                value={totalLectures}
-                onChange={(e) => setTotalLectures(e.target.value)}
-                required
-              />
-            </div>
-            <div className="am-form-group">
-              <label htmlFor="attended-lectures" className="am-label">
-                Attended Lectures
-              </label>
-              <input
-                id="attended-lectures"
-                type="number"
-                className="am-input"
-                placeholder="Lectures you attended"
-                value={attendedLectures}
-                onChange={(e) => setAttendedLectures(e.target.value)}
-                required
-              />
-            </div>
+        <>
+          <div className="am-mode-selector">
             <button 
-              type="submit" 
-              className="am-submit-button"
+              onClick={handleCalculateAttendance}
+              className={`am-mode-button ${showCalculateButtons ? 'am-active-mode' : ''}`}
             >
-              <Calculator className="am-icon" />
-              <span>Calculate</span>
+              <BarChart className="am-icon" />
+              <span>Calculate Attendance</span>
             </button>
-          </form>
-        </div>
-      )}
-
-      {mode === 'subjectWise' && (
-        <div className="am-form-container">
-          <h3 className="am-form-title">Subject Wise Attendance</h3>
-          <form onSubmit={handleSubjectWise} className="am-form">
-            <div className="am-form-group">
-              <label htmlFor="subject-count" className="am-label">
-                Number of Subjects (Max 100)
-              </label>
-              <input
-                id="subject-count"
-                type="number"
-                className="am-input"
-                placeholder="How many subjects?"
-                value={subjectCount}
-                onChange={(e) => handleSubjectCountChange(e.target.value)}
-                max="100"
-                required
-              />
-            </div>
-            
-            {subjects.length > 0 && (
-              <div className="am-subjects-container">
-                {subjects.map((subject, index) => (
-                  <div key={index} className="am-subject-card">
-                    <h4 className="am-subject-title">Subject {index + 1}</h4>
-                    <div className="am-subject-fields">
-                      <div className="am-form-group">
-                        <label htmlFor={`conducted-${index}`} className="am-label">
-                          Conducted
-                        </label>
-                        <input
-                          id={`conducted-${index}`}
-                          type="number"
-                          className="am-input"
-                          placeholder="Conducted"
-                          value={subject.conducted}
-                          onChange={(e) => {
-                            const updatedSubjects = [...subjects];
-                            updatedSubjects[index].conducted = e.target.value;
-                            setSubjects(updatedSubjects);
-                          }}
-                          required
-                        />
-                      </div>
-                      <div className="am-form-group">
-                        <label htmlFor={`attended-${index}`} className="am-label">
-                          Attended
-                        </label>
-                        <input
-                          id={`attended-${index}`}
-                          type="number"
-                          className="am-input"
-                          placeholder="Attended"
-                          value={subject.attended}
-                          onChange={(e) => {
-                            const updatedSubjects = [...subjects];
-                            updatedSubjects[index].attended = e.target.value;
-                            setSubjects(updatedSubjects);
-                          }}
-                          required
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-            
-            {subjects.length > 0 && (
-              <button 
-                type="submit" 
-                className="am-submit-button"
-              >
-                <Calculator className="am-icon" />
-                <span>Calculate</span>
-              </button>
-            )}
-          </form>
-        </div>
-      )}
-
-      {showTargetForm && mode === 'target' && (
-        <div className="am-form-container">
-          <h3 className="am-form-title">Attendance Target</h3>
-          <form onSubmit={handleTargetAttendance} className="am-form">
-            <div className="am-form-group">
-              <label htmlFor="target-total" className="am-label">
-                Total Lectures
-              </label>
-              <input
-                id="target-total"
-                type="number"
-                className="am-input"
-                placeholder="Total lectures conducted"
-                value={totalLectures}
-                onChange={(e) => setTotalLectures(e.target.value)}
-                required
-              />
-            </div>
-            <div className="am-form-group">
-              <label htmlFor="target-attended" className="am-label">
-                Attended Lectures
-              </label>
-              <input
-                id="target-attended"
-                type="number"
-                className="am-input"
-                placeholder="Lectures you attended"
-                value={attendedLectures}
-                onChange={(e) => setAttendedLectures(e.target.value)}
-                required
-              />
-            </div>
-            <div className="am-form-group">
-              <label htmlFor="target-percentage" className="am-label">
-                Target Percentage
-              </label>
-              <input
-                id="target-percentage"
-                type="number"
-                className="am-input"
-                placeholder="Target attendance (%)"
-                value={targetAttendance}
-                onChange={(e) => setTargetAttendance(e.target.value)}
-                required
-              />
-            </div>
             <button 
-              type="submit" 
-              className="am-submit-button"
+              onClick={handleAttendanceTarget}
+              className={`am-mode-button ${showTargetForm ? 'am-active-mode' : ''}`}
             >
               <Target className="am-icon" />
-              <span>Calculate Target</span>
+              <span>Attendance Target</span>
             </button>
-          </form>
-        </div>
-      )}
+          </div>
 
-      {result && (
-        <div className={`am-result ${resultColor}`}>
-          <p>{result}</p>
-        </div>
+          {showCalculateButtons && (
+            <div className="am-calculation-type">
+              <button 
+                onClick={() => { setMode('aggregate'); resetFields(); }}
+                className={`am-type-button ${mode === 'aggregate' ? 'am-active-type' : ''}`}
+              >
+                <Calculator className="am-icon" />
+                <span>Aggregate</span>
+              </button>
+              <button 
+                onClick={() => { setMode('subjectWise'); resetFields(); }}
+                className={`am-type-button ${mode === 'subjectWise' ? 'am-active-type' : ''}`}
+              >
+                <Book className="am-icon" />
+                <span>Subject Wise</span>
+              </button>
+            </div>
+          )}
+
+          {mode === 'aggregate' && (
+            <div className="am-form-container">
+              <h3 className="am-form-title">Aggregate Attendance</h3>
+              <form onSubmit={handleCalculateAggregate} className="am-form">
+                <div className="am-form-group">
+                  <label htmlFor="total-lectures" className="am-label">
+                    Total Lectures
+                  </label>
+                  <input
+                    id="total-lectures"
+                    type="number"
+                    className="am-input"
+                    placeholder="Total lectures conducted"
+                    value={totalLectures}
+                    onChange={(e) => setTotalLectures(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="am-form-group">
+                  <label htmlFor="attended-lectures" className="am-label">
+                    Attended Lectures
+                  </label>
+                  <input
+                    id="attended-lectures"
+                    type="number"
+                    className="am-input"
+                    placeholder="Lectures you attended"
+                    value={attendedLectures}
+                    onChange={(e) => setAttendedLectures(e.target.value)}
+                    required
+                  />
+                </div>
+                <button 
+                  type="submit" 
+                  className="am-submit-button"
+                >
+                  <Calculator className="am-icon" />
+                  <span>Calculate</span>
+                </button>
+              </form>
+            </div>
+          )}
+
+          {mode === 'subjectWise' && (
+            <div className="am-form-container">
+              <h3 className="am-form-title">Subject Wise Attendance</h3>
+              <form onSubmit={handleSubjectWise} className="am-form">
+                <div className="am-form-group">
+                  <label htmlFor="subject-count" className="am-label">
+                    Number of Subjects (Max 100)
+                  </label>
+                  <input
+                    id="subject-count"
+                    type="number"
+                    className="am-input"
+                    placeholder="How many subjects?"
+                    value={subjectCount}
+                    onChange={(e) => handleSubjectCountChange(e.target.value)}
+                    max="100"
+                    required
+                  />
+                </div>
+                
+                {subjects.length > 0 && (
+                  <div className="am-subjects-container">
+                    {subjects.map((subject, index) => (
+                      <div key={index} className="am-subject-card">
+                        <h4 className="am-subject-title">Subject {index + 1}</h4>
+                        <div className="am-subject-fields">
+                          <div className="am-form-group">
+                            <label htmlFor={`conducted-${index}`} className="am-label">
+                              Conducted
+                            </label>
+                            <input
+                              id={`conducted-${index}`}
+                              type="number"
+                              className="am-input"
+                              placeholder="Conducted"
+                              value={subject.conducted}
+                              onChange={(e) => {
+                                const updatedSubjects = [...subjects];
+                                updatedSubjects[index].conducted = e.target.value;
+                                setSubjects(updatedSubjects);
+                              }}
+                              required
+                            />
+                          </div>
+                          <div className="am-form-group">
+                            <label htmlFor={`attended-${index}`} className="am-label">
+                              Attended
+                            </label>
+                            <input
+                              id={`attended-${index}`}
+                              type="number"
+                              className="am-input"
+                              placeholder="Attended"
+                              value={subject.attended}
+                              onChange={(e) => {
+                                const updatedSubjects = [...subjects];
+                                updatedSubjects[index].attended = e.target.value;
+                                setSubjects(updatedSubjects);
+                              }}
+                              required
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                
+                {subjects.length > 0 && (
+                  <button 
+                    type="submit" 
+                    className="am-submit-button"
+                  >
+                    <Calculator className="am-icon" />
+                    <span>Calculate</span>
+                  </button>
+                )}
+              </form>
+            </div>
+          )}
+
+          {showTargetForm && mode === 'target' && (
+            <div className="am-form-container">
+              <h3 className="am-form-title">Attendance Target</h3>
+              <form onSubmit={handleTargetAttendance} className="am-form">
+                <div className="am-form-group">
+                  <label htmlFor="target-total" className="am-label">
+                    Total Lectures
+                  </label>
+                  <input
+                    id="target-total"
+                    type="number"
+                    className="am-input"
+                    placeholder="Total lectures conducted"
+                    value={totalLectures}
+                    onChange={(e) => setTotalLectures(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="am-form-group">
+                  <label htmlFor="target-attended" className="am-label">
+                    Attended Lectures
+                  </label>
+                  <input
+                    id="target-attended"
+                    type="number"
+                    className="am-input"
+                    placeholder="Lectures you attended"
+                    value={attendedLectures}
+                    onChange={(e) => setAttendedLectures(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="am-form-group">
+                  <label htmlFor="target-percentage" className="am-label">
+                    Target Percentage
+                  </label>
+                  <input
+                    id="target-percentage"
+                    type="number"
+                    className="am-input"
+                    placeholder="Target attendance (%)"
+                    value={targetAttendance}
+                    onChange={(e) => setTargetAttendance(e.target.value)}
+                    required
+                  />
+                </div>
+                <button 
+                  type="submit" 
+                  className="am-submit-button"
+                >
+                  <Target className="am-icon" />
+                  <span>Calculate Target</span>
+                </button>
+              </form>
+            </div>
+          )}
+
+          {result && !showHistory && (
+            <div className={`am-result ${resultColor}`}>
+              <p>{result}</p>
+            </div>
+          )}
+        </>
       )}
 
       {showHistory && (
@@ -568,92 +577,92 @@ const AttendanceManager = () => {
               ))}
             </div>
           )}
-          <p className="note-text">We do not store any information , all this history is from your own browser local storage</p>
+          <p className="note-text">We do not store any information, all this history is from your own browser local storage</p>
         </div>
-        
       )}
       
       <div className="am-footer">
-  <p className="am-copyright" onClick={toggleUserGuide}>MADE BY AADITIYA</p>
-</div>
-{showUserGuide && (
-  <div className="am-user-guide">
-    <div className="am-guide-header">
-      <h2>Attendance Tracker User Guide</h2>
-      <button className="am-guide-close" onClick={toggleUserGuide}>×</button>
-    </div>
-    
-    <div className="am-guide-content">
-      <section className="am-guide-section">
-        <h3>Getting Started</h3>
-        <p>Welcome to Attendance Tracker! This app helps you calculate and manage your attendance records. It provides three main functions:</p>
-        <ul>
-          <li><strong>Aggregate Attendance:</strong> Calculate overall attendance based on total lectures</li>
-          <li><strong>Subject-wise Attendance:</strong> Track attendance across multiple subjects (up to 100)</li>
-          <li><strong>Target Attendance:</strong> Find out how many lectures you need to attend or can miss</li>
-        </ul>
-      </section>
+        <p className="am-copyright" onClick={toggleUserGuide}>MADE BY AADITIYA</p>
+      </div>
       
-      <section className="am-guide-section">
-        <h3>Calculate Attendance</h3>
-        <p><strong>Aggregate Method:</strong></p>
-        <ol>
-          <li>Click "Calculate Attendance" button</li>
-          <li>Select "Aggregate" option</li>
-          <li>Enter the total number of lectures conducted</li>
-          <li>Enter the number of lectures you've attended</li>
-          <li>Click "Calculate" to see your attendance percentage</li>
-        </ol>
-        
-        <p><strong>Subject-wise Method:</strong></p>
-        <ol>
-          <li>Click "Calculate Attendance" button</li>
-          <li>Select "Subject Wise" option</li>
-          <li>Enter number of subjects (maximum 100)</li>
-          <li>For each subject, enter conducted and attended lectures</li>
-          <li>Click "Calculate" to see your combined attendance percentage</li>
-        </ol>
-      </section>
-      
-      <section className="am-guide-section">
-        <h3>Attendance Target</h3>
-        <p>To find out how many more lectures you need to attend or can afford to miss:</p>
-        <ol>
-          <li>Click "Attendance Target" button</li>
-          <li>Enter your current total lectures and attended lectures</li>
-          <li>Enter your target attendance percentage (0-99%)</li>
-          <li>Click "Calculate Target"</li>
-          <li>The app will tell you if you need to attend more lectures or how many you can miss</li>
-        </ol>
-      </section>
-      
-      <section className="am-guide-section">
-        <h3>Tracking History</h3>
-        <p>All your calculations are automatically saved to history:</p>
-        <ul>
-          <li>Click the history icon (clock) in the top right to view past calculations</li>
-          <li>Each entry shows the calculation type, date, details, and result</li>
-          <li>History is color-coded: green for good attendance, yellow/red for attention needed</li>
-          <li>You can clear your history using the "Clear" button</li>
-        </ul>
-      </section>
-      
-      <section className="am-guide-section">
-        <h3>Tips & Features</h3>
-        <ul>
-          <li>Toggle between light and dark mode using the moon/sun icon</li>
-          <li>The app saves your history and theme preference between sessions</li>
-          <li>75% is the standard attendance threshold for passing (shown in green)</li>
-          <li>Maximum 100 subjects can be added for subject-wise calculation</li>
-        </ul>
-      </section>
-    </div>
-    
-    <div className="am-guide-footer">
-      <p>Created by Aaditiya © 2025</p>
-    </div>
-  </div>
-)}
+      {showUserGuide && (
+        <div className="am-user-guide">
+          <div className="am-guide-header">
+            <h2>Attendance Tracker User Guide</h2>
+            <button className="am-guide-close" onClick={toggleUserGuide}>×</button>
+          </div>
+          
+          <div className="am-guide-content">
+            <section className="am-guide-section">
+              <h3>Getting Started</h3>
+              <p>Welcome to Attendance Tracker! This app helps you calculate and manage your attendance records. It provides three main functions:</p>
+              <ul>
+                <li><strong>Aggregate Attendance:</strong> Calculate overall attendance based on total lectures</li>
+                <li><strong>Subject-wise Attendance:</strong> Track attendance across multiple subjects (up to 100)</li>
+                <li><strong>Target Attendance:</strong> Find out how many lectures you need to attend or can miss</li>
+              </ul>
+            </section>
+            
+            <section className="am-guide-section">
+              <h3>Calculate Attendance</h3>
+              <p><strong>Aggregate Method:</strong></p>
+              <ol>
+                <li>Click "Calculate Attendance" button</li>
+                <li>Select "Aggregate" option</li>
+                <li>Enter the total number of lectures conducted</li>
+                <li>Enter the number of lectures you've attended</li>
+                <li>Click "Calculate" to see your attendance percentage</li>
+              </ol>
+              
+              <p><strong>Subject-wise Method:</strong></p>
+              <ol>
+                <li>Click "Calculate Attendance" button</li>
+                <li>Select "Subject Wise" option</li>
+                <li>Enter number of subjects (maximum 100)</li>
+                <li>For each subject, enter conducted and attended lectures</li>
+                <li>Click "Calculate" to see your combined attendance percentage</li>
+              </ol>
+            </section>
+            
+            <section className="am-guide-section">
+              <h3>Attendance Target</h3>
+              <p>To find out how many more lectures you need to attend or can afford to miss:</p>
+              <ol>
+                <li>Click "Attendance Target" button</li>
+                <li>Enter your current total lectures and attended lectures</li>
+                <li>Enter your target attendance percentage (0-99%)</li>
+                <li>Click "Calculate Target"</li>
+                <li>The app will tell you if you need to attend more lectures or how many you can miss</li>
+              </ol>
+            </section>
+            
+            <section className="am-guide-section">
+              <h3>Tracking History</h3>
+              <p>All your calculations are automatically saved to history:</p>
+              <ul>
+                <li>Click the history icon (clock) in the top right to view past calculations</li>
+                <li>Each entry shows the calculation type, date, details, and result</li>
+                <li>History is color-coded: green for good attendance, yellow/red for attention needed</li>
+                <li>You can clear your history using the "Clear" button</li>
+              </ul>
+            </section>
+            
+            <section className="am-guide-section">
+              <h3>Tips & Features</h3>
+              <ul>
+                <li>Toggle between light and dark mode using the moon/sun icon</li>
+                <li>The app saves your history and theme preference between sessions</li>
+                <li>75% is the standard attendance threshold for passing (shown in green)</li>
+                <li>Maximum 100 subjects can be added for subject-wise calculation</li>
+              </ul>
+            </section>
+          </div>
+          
+          <div className="am-guide-footer">
+            <p>Created by Aaditiya © 2025</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
