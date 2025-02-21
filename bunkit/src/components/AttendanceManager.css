@@ -1041,3 +1041,17 @@
     animation: none;
   }
 }
+.note-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #ca8a04; /* Dark yellow */
+}
+
+.note-icon {
+  position:relative;
+  top:-10px;
+  display: inline;
+}

@@ -568,7 +568,9 @@ const AttendanceManager = () => {
               ))}
             </div>
           )}
+          <p className="note-text">We do not store any information , all this history is from your own browser local storage</p>
         </div>
+        
       )}
       
       <div className="am-footer">
