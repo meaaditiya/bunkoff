@@ -7,7 +7,8 @@ import {
   Book, 
   Target,
   Check,
-  X 
+  X ,
+  ScrollText
 } from 'lucide-react';
 import './AttendanceManager.css';
 
@@ -257,6 +258,9 @@ const AttendanceManager = () => {
         setShowCalculateButtons(false);
         setShowTargetForm(false);
       }
+    };
+    const openTwitterProfile = () => {
+      window.open('https://x.com/aaditiya__tyagi', '_blank');
     };
 
   return (
@@ -582,9 +586,20 @@ const AttendanceManager = () => {
       )}
       
       <div className="am-footer">
-        <p className="am-copyright" onClick={toggleUserGuide}>MADE BY AADITIYA</p>
+        <p 
+          className="am-copyright" 
+          onClick={openTwitterProfile}
+        >
+          MADE BY AADITIYA
+        </p>
       </div>
-      
+      <button 
+        onClick={toggleUserGuide}
+        className="am-scroll-button"
+        title="Open User Guide"
+      >
+        <ScrollText className="am-scroll-icon" />
+      </button>
       {showUserGuide && (
         <div className="am-user-guide">
           <div className="am-guide-header">
