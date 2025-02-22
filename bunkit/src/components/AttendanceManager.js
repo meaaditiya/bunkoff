@@ -11,6 +11,7 @@ import {
   ScrollText,
   GraduationCap
 } from 'lucide-react';
+import { FaXTwitter } from "react-icons/fa6";
 import '../components/AttendanceManager.css';
 const IntegratedManager = () => {
   // Shared state
@@ -836,12 +837,9 @@ const IntegratedManager = () => {
           <p className="note-text">We do not store any information, all this history is from your own browser local storage</p>
         </div>
       )}
-      <div className="am-footer">
-        <p 
-          className="am-copyright" 
-          onClick={openTwitterProfile}
-        >
-          MADE BY AADITIYA
+          <div className="am-footer">
+        <p className="am-copyright" onClick={openTwitterProfile} style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}>
+          Contact me on <FaXTwitter size={20} />
         </p>
       </div>
       <button 
@@ -872,34 +870,34 @@ const IntegratedManager = () => {
             <section className="am-guide-section">
               <h3>Calculate Attendance</h3>
               <p><strong>Aggregate Method:</strong></p>
-              <ol>
+              <ul>
                 <li>Click "Calculate Attendance" button</li>
                 <li>Select "Aggregate" option</li>
                 <li>Enter the total number of lectures conducted</li>
                 <li>Enter the number of lectures you've attended</li>
                 <li>Click "Calculate" to see your attendance percentage</li>
-              </ol>
+              </ul>
               
               <p><strong>Subject-wise Method:</strong></p>
-              <ol>
+              <ul>
                 <li>Click "Calculate Attendance" button</li>
                 <li>Select "Subject Wise" option</li>
                 <li>Enter number of subjects (maximum 100)</li>
                 <li>For each subject, enter conducted and attended lectures</li>
                 <li>Click "Calculate" to see your combined attendance percentage</li>
-              </ol>
+              </ul>
             </section>
             
             <section className="am-guide-section">
               <h3>Attendance Target</h3>
               <p>To find out how many more lectures you need to attend or can afford to miss:</p>
-              <ol>
+              <ul>
                 <li>Click "Attendance Target" button</li>
                 <li>Enter your current total lectures and attended lectures</li>
                 <li>Enter your target attendance percentage (0-99%)</li>
                 <li>Click "Calculate Target"</li>
                 <li>The app will tell you if you need to attend more lectures or how many you can miss</li>
-              </ol>
+              </ul>
             </section>
             
             <section className="am-guide-section">
@@ -912,7 +910,16 @@ const IntegratedManager = () => {
                 <li>You can clear your history using the "Clear" button</li>
               </ul>
             </section>
-            
+            <section className="am-guide-section">
+            <h3>CGPA Calculator</h3>
+            <p>Calculate your CGPA using credit scores and marks (internal and external) based on AKTU's grading system.</p>
+            <ul>
+              <li>Enter the number of subjects.</li>
+              <li>Fill in the details for each subject one at a time.</li>
+              <li>View your calculated CGPA, percentage, and total marks.</li>
+              <li>CGPA calculators for other universities will be added soon.</li>
+            </ul>
+          </section>
             <section className="am-guide-section">
               <h3>Tips & Features</h3>
               <ul>
@@ -925,7 +932,7 @@ const IntegratedManager = () => {
           </div>
           
           <div className="am-guide-footer">
-            <p>Created by Aaditiya © 2025</p>
+            <p>Created by Aaditiya Tyagi © 2025</p>
           </div>
         </div>
       )}

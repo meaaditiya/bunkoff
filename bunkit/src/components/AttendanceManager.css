@@ -776,7 +776,7 @@
   }
   .am-footer {
   position: fixed;
-  bottom: 0;
+  bottom: 0px;
   left: 0;
   width: 100%;
   z-index: 10;
@@ -1062,8 +1062,8 @@
 
 .am-scroll-button {
   position: fixed;
-  bottom: 2rem;
-  right: 2rem;
+  bottom: 0.5rem;
+  right: 0.5rem;
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
@@ -1166,7 +1166,7 @@ body.dark .am-scroll-icon {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow for inputs */
 }
 .cgpa-select{
-  width:97%;
+  width:99%;
 }
 
 .dark .cgpa-input,
