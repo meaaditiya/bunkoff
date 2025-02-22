@@ -111,7 +111,7 @@
     border-radius: 0.5rem;
   }
   
-  .am-theme-toggle, .am-history-toggle {
+  .am-theme-toggle, .am-history-toggle ,.am-cgpa-toggle{
     width: 2.5rem;
     height: 2.5rem;
     font-size: 1.25rem;
@@ -1116,13 +1116,7 @@ body.dark .am-scroll-icon {
   height: 1.5rem;
 }
 /* CGPA Calculator Styles */
-.am-cgpa-toggle{
-  width: 2.5rem;
-    height: 2.5rem;
-    font-size: 1.25rem;
-    border-radius: 50%;
-  
-}
+
 .cgpa-calculator {
   padding: 1.5rem;
   background: var(--card-bg-light);
@@ -1166,7 +1160,7 @@ body.dark .am-scroll-icon {
   background: var(--input-bg);
   color: var(--text-light);
   font-size: 0.9rem;
-  width: 100%;
+  width: 90%;
   max-width: 150px;
   transition: var(--transition);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow for inputs */
