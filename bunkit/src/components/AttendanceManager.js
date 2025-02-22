@@ -430,7 +430,7 @@ const IntegratedManager = () => {
       {showCGPA ? (
         <div className="cgpa-calculator">
           <h2 className="cgpa-title">CGPA Calculator (AKTU)</h2>
-          <p className="soon">soon for other universites</p>
+          <p className="soon"> soon for other universities</p>
           
           {totalSubjects === 0 ? (
             <div className="cgpa-init-form">
