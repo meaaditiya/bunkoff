@@ -1049,6 +1049,9 @@
   font-weight: 500;
   color: #ca8a04; /* Dark yellow */
 }
+.soon{
+  color: #ca8a04;
+}
 
 .note-icon {
   position:relative;
@@ -1111,4 +1114,241 @@ body.dark .am-scroll-icon {
 .am-scroll-icon {
   width: 1.5rem;
   height: 1.5rem;
+}
+/* CGPA Calculator Styles */
+.am-cgpa-toggle{
+  width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+    border-radius: 50%;
+  
+}
+.cgpa-calculator {
+  padding: 1.5rem;
+  background: var(--card-bg-light);
+  border-radius: 16px; /* Rounded corners for the container */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  margin: 1rem 0;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.dark .cgpa-calculator {
+  background: var(--card-bg-dark);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Darker shadow for dark theme */
+}
+
+.cgpa-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.dark .cgpa-title {
+  color: var(--text-dark);
+}
+
+/* Compact Form Styles */
+.cgpa-init-form {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.cgpa-input,
+.cgpa-select {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-light);
+  border-radius: 12px; /* Rounded corners for inputs */
+  background: var(--input-bg);
+  color: var(--text-light);
+  font-size: 0.9rem;
+  width: 100%;
+  max-width: 150px;
+  transition: var(--transition);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow for inputs */
+}
+
+.dark .cgpa-input,
+.dark .cgpa-select {
+  border-color: var(--border-dark);
+  color: var(--text-dark);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Darker shadow for dark theme */
+}
+
+.cgpa-input:focus,
+.cgpa-select:focus {
+  border-color: var(--primary-light);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2); /* Focus ring */
+}
+
+.dark .cgpa-input:focus,
+.dark .cgpa-select:focus {
+  border-color: var(--primary-dark);
+  box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.3); /* Dark focus ring */
+}
+
+/* Round Border Buttons */
+.cgpa-buttons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.cgpa-submit-btn,
+.cgpa-add-btn,
+.cgpa-reset-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 50px; /* Fully rounded buttons */
+  background: var(--primary-light);
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: var(--transition);
+  flex: 1;
+  max-width: 120px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for buttons */
+}
+
+.dark .cgpa-submit-btn,
+.dark .cgpa-add-btn,
+.dark .cgpa-reset-btn {
+  background: var(--primary-dark);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Darker shadow for dark theme */
+}
+
+.cgpa-submit-btn:hover,
+.cgpa-add-btn:hover {
+  background: var(--primary-light-hover);
+  transform: translateY(-2px); /* Lift effect on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+.cgpa-reset-btn:hover{
+  color:black;
+  transform: translateY(-2px); /* Lift effect on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dark .cgpa-submit-btn:hover,
+.dark .cgpa-add-btn:hover {
+  background: var(--primary-dark-hover);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Darker hover shadow */
+}
+.dark .cgpa-reset-btn:hover{
+  color:white;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+.cgpa-reset-btn {
+  background: var(--danger-light);
+}
+
+.dark .cgpa-reset-btn {
+  background: var(--danger-dark);
+}
+
+.cgpa-reset-btn:hover {
+  background: var(--danger-light-hover);
+}
+
+.dark .cgpa-reset-btn:hover {
+  background: var(--danger-dark-hover);
+}
+
+/* Subject Form Styles */
+.cgpa-subject-form {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: var(--card-bg-light);
+  border-radius: 16px; /* Rounded corners for the form */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+.dark .cgpa-subject-form {
+  background: var(--card-bg-dark);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Darker shadow for dark theme */
+}
+
+.cgpa-form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cgpa-form-group label {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.dark .cgpa-form-group label {
+  color: var(--text-dark);
+}
+
+/* Result Styles */
+.cgpa-result {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: var(--card-bg-light);
+  border-radius: 16px; /* Rounded corners for the result box */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  text-align: center;
+}
+
+.dark .cgpa-result {
+  background: var(--card-bg-dark);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Darker shadow for dark theme */
+}
+
+.cgpa-stats {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.cgpa-value {
+  font-weight: 600;
+  color: var(--primary-light);
+}
+
+.dark .cgpa-value {
+  color: var(--primary-dark);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .cgpa-calculator {
+    padding: 1rem;
+  }
+
+  .cgpa-title {
+    font-size: 1.25rem;
+  }
+
+  .cgpa-init-form {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .cgpa-input,
+  .cgpa-select {
+    max-width: 100%;
+  }
+
+  .cgpa-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .cgpa-submit-btn,
+  .cgpa-add-btn,
+  .cgpa-reset-btn {
+    max-width: 100%;
+  }
 }
