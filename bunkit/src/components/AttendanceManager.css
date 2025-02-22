@@ -1165,6 +1165,9 @@ body.dark .am-scroll-icon {
   transition: var(--transition);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Subtle shadow for inputs */
 }
+.cgpa-select{
+  width:97%;
+}
 
 .dark .cgpa-input,
 .dark .cgpa-select {
@@ -1209,6 +1212,10 @@ body.dark .am-scroll-icon {
   max-width: 120px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for buttons */
 }
+.cgpa-reset-btn {
+  position: relative;
+  top:10px;
+}
 
 .dark .cgpa-submit-btn,
 .dark .cgpa-add-btn,
@@ -1224,6 +1231,7 @@ body.dark .am-scroll-icon {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
 }
 .cgpa-reset-btn:hover{
+  border:solid#000000;
   color:black;
   transform: translateY(-2px); /* Lift effect on hover */
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
@@ -1235,6 +1243,7 @@ body.dark .am-scroll-icon {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Darker hover shadow */
 }
 .dark .cgpa-reset-btn:hover{
+  border: solid white;
   color:white;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
