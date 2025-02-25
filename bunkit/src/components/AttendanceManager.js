@@ -169,7 +169,7 @@ const IntegratedManager = () => {
     let totalCredits = 0;
 
     cgpaSubjects.forEach(subject => {
-      const { creditScore, subjectType, internalMarks, externalMarks } = subject;
+      const { creditScore,  internalMarks, externalMarks } = subject;
 
       if (externalMarks < 21) {
         totalCredits += creditScore;

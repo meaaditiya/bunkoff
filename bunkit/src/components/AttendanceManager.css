@@ -416,6 +416,7 @@
   /* Result Styling */
   .am-result {
     margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
     padding: 1.25rem;
     border-radius: 0.75rem;
     font-weight: 500;
@@ -776,7 +777,7 @@
   }
   .am-footer {
   position: fixed;
-  bottom: 0px;
+  bottom: 5px;
   left: 0;
   width: 100%;
   z-index: 10;
